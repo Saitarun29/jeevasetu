@@ -1,0 +1,21 @@
+rules_version = '2';
+
+// JEEVASETU Firestore security rules.
+//
+// Architecture invariant: the browser never reads or writes Firestore directly.
+// Every read/write goes through Next.js Route Handlers on Cloud Run, which:
+//   1. verify the Firebase ID token (checkRevoked: true),
+//   2. resolve the caller's role from /patients/{patientId}/members/{uid},
+//   3. enforce patient scoping and role allowlists,
+//   4. use the Firebase Admin SDK, which bypasses these rules by design.
+//
+// Therefore all direct client SDK access is denied. This is deliberate: it
+// prevents a compromised or tampered client from bypassing server authorization,
+// inventing adherence events, or reading another patient's care circle.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

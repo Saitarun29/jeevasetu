@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-rgb: 248, 250, 252;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Elderly-friendly accessibility rules */
+/* Minimum touch target size 48px standard */
+button, input, select, textarea, a {
+  min-height: 48px;
+}
+
+/* High-contrast focus rings for visual clarity */
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+  outline: 3px solid #16a34a;
+  outline-offset: 2px;
+}
+
+/* Senior Mode: Enhanced typography & massive touch targets (>= 56px standard) */
+.senior-mode button,
+.senior-mode input,
+.senior-mode select,
+.senior-mode a {
+  min-height: 56px;
+  min-width: 56px;
+  font-size: 1.15rem;
+}
+
+.senior-mode p,
+.senior-mode span,
+.senior-mode td,
+.senior-mode label {
+  line-height: 1.6;
+}
+
+/* High-contrast mode overrides */
+.high-contrast {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+.high-contrast .text-slate-500,
+.high-contrast .text-slate-400 {
+  color: #1e293b !important;
+}
+
+.high-contrast .border-slate-200,
+.high-contrast .border-slate-100 {
+  border-color: #64748b !important;
+}
