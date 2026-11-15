@@ -86,8 +86,11 @@ export default function DashboardPage() {
           setActivePatient(found);
           localStorage.setItem('jeevasetu_active_patient', found.id);
 
-          // Initial view selection based on role
-          if (found.myRole === 'patient') {
+          // Initial view selection based on login role choice or Firestore role
+          const savedPreferredView = localStorage.getItem('jeevasetu_default_view');
+          if (savedPreferredView === 'elderly' || savedPreferredView === 'caregiver' || savedPreferredView === 'family') {
+            setActiveView(savedPreferredView);
+          } else if (found.myRole === 'patient') {
             setActiveView('elderly');
           } else if (found.myRole === 'caregiver') {
             setActiveView('caregiver');
@@ -534,7 +537,10 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between bg-white border border-slate-200 p-2 sm:p-2.5 rounded-2xl shadow-sm">
         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
           <button
-            onClick={() => setActiveView('elderly')}
+            onClick={() => {
+              setActiveView('elderly');
+              if (typeof window !== 'undefined') localStorage.setItem('jeevasetu_default_view', 'elderly');
+            }}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition min-h-[44px] cursor-pointer ${
               activeView === 'elderly'
                 ? 'bg-emerald-700 text-white shadow-sm'
@@ -546,7 +552,10 @@ export default function DashboardPage() {
           </button>
 
           <button
-            onClick={() => setActiveView('family')}
+            onClick={() => {
+              setActiveView('family');
+              if (typeof window !== 'undefined') localStorage.setItem('jeevasetu_default_view', 'family');
+            }}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition min-h-[44px] cursor-pointer ${
               activeView === 'family'
                 ? 'bg-brand-600 text-white shadow-sm'
@@ -558,7 +567,10 @@ export default function DashboardPage() {
           </button>
 
           <button
-            onClick={() => setActiveView('caregiver')}
+            onClick={() => {
+              setActiveView('caregiver');
+              if (typeof window !== 'undefined') localStorage.setItem('jeevasetu_default_view', 'caregiver');
+            }}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition min-h-[44px] cursor-pointer ${
               activeView === 'caregiver'
                 ? 'bg-slate-900 text-white shadow-sm'
